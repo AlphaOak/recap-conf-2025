@@ -6,8 +6,8 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^9",
-    "express": "^4"
-    
+    "express": "^4",
+    "@alphaoak/recap-plugin": "^1"
   },
   "engines": {
     "node": ">=20"
@@ -18,5 +18,12 @@
   },
   "scripts": {
     "start": "cds-serve"
+  },
+  "cds": {
+    "log": {
+      "levels": {
+        "recap-plugin": "info"
+      }
+    }
   }
 }

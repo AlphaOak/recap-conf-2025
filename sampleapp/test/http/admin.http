@@ -1,0 +1,22 @@
+@server=http://localhost:4004
+@service=/odata/v4/admin
+
+### Admin Service
+GET {{server}}{{service}}/Bla
+
+
+### Admin Service
+GET {{server}}{{service}}/Jobs?$expand=safetyInspections
+
+### Admin Service POST
+POST {{server}}{{service}}/Jobs
+Content-Type: application/json
+
+{
+  "ID": "123",
+  "sapWorkOrderId":"8100001",
+  "description": "Test Job",
+  "extensionField": "Extended Value"
+}
+
+
