@@ -1,0 +1,4 @@
+ID,sapWorkOrderId,description,status,createdAt,updatedAt
+1,8100001,Inspection of safety equipment,Completed,2023-01-01T10:00:00Z,2023-01-02T12:00:00Z
+2,8100001,Fire extinguisher check,In Progress,2023-01-03T14:00:00Z,2023-01-04T16:00:00Z
+3,8100002,Emergency exit inspection,Pending,2023-01-05T18:00:00Z,2023-01-06T20:00:00Z

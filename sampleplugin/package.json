@@ -1,0 +1,24 @@
+{
+  "name": "@alphaoak/recap-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A sample CAP plugin.",
+  "license": "UNLICENSED",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "dependencies": {
+    "@sap/cds": "^9",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2",
+    "@cap-js/cds-types": "^0.11.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
