@@ -1,7 +1,21 @@
-# reCAP Conference 2025
-AlphaOak is developing a SAP extension app called ['Sigma'](https://www.alphaoak.com/products/sigma/) that is using S/4 as a foundation 
+# re>≡CAP Conference 2025
+AlphaOak is developing a SAP extension app called ['Sigma'](https://www.alphaoak.com/products/sigma/) that is using S/4 as a foundation.
+
+The concept of Sigma is at it's core to calculate some standard Asset and Work Management KPI's. 
+
+Why do you need CAP for it you ask? 
+
+A few reasons: 
+1. Standard Analytics Engines like SAC or BDC don't have the capabilty to configure thresholds when lights turn green and other factors like weighting of multiple measures into a single KPI. 
+2. We have lots of data points that don't exist or exist in another system, so we want to have standard interfaces in place to feed the information into out data model or (if no external system exists), use a Fiori app to enter it in reference to our main entity (in our case a Job).  
+
+At the end of the day the overall solution allows me to consume the data set through three different channels: 
+1. For key decision makers in SAC with some standard Dashboards. Once I drill down I can then offer a jump into a Fiori App that provides all the line item details.  
+2. If I want to provide the analytics team an additional level of flexibility, I can provide the information to BDC/Datasphere and ultimately to SAC. 
+3. For the Field User and Supervisor I can use a simple Fiori Analytical app as third channel to consume the information. 
 
 ## System Landscape
+Sigma is utilizing the following solution architecture.
 <img src="./docs/img/sigma-architecture.png">
 
 
@@ -44,13 +58,15 @@ AlphaOak is developing a SAP extension app called ['Sigma'](https://www.alphaoak
 ```
 
 
-# Example Plugin Use for Semantics
+# Example Plugin Use to model Semantics
 ## Why using Plugins
 We are using plugins to separate the different data models and extensions from each other. The easiest analogy would be modules in SAP S/4.
 
+As we are re-using components in varying applications, we don't want to copy and paste data models around. 
+
 
 # Step by Step Instructions
-## Prepare the project environment
+## 1. Prepare the project environment
 1. Create an overall project folder. Let's say it is called `tapp`
 2. Create two sub folders. The first one called `capapp`, the second `capplugin`
 3. Initialize CAP projects in both folders
@@ -63,7 +79,7 @@ We are using plugins to separate the different data models and extensions from e
 8. Change back to `t2` and run `npm i`
 9. Validate that a symlink to `@alphaoak/capplugin` exists in `node_modules` directory
 
-## Start the plugin implementation
+## 2. Start the plugin implementation
 1. Create a file called `cds-plugin.js` with the following content
 ```javascript
 const cds = require('@sap/cds')
@@ -110,7 +126,7 @@ cds.on('served', () => {
     using from './srv/api';
     ```
 
-## Start the app implementation
+## 3. Start the app implementation
 1. Create the app data model supplmenting the core model defined in the plugin. Create a file in folder `db` of the application (not plugin) called `app-dbmodel.cds` 
 ```cds
 namespace ao.recap;
@@ -234,5 +250,34 @@ Connection: close
   ]
 }
 ```
+# Fiori Apps in Plugins
+## Challenges
+The current tooling from SAP does not allow you easily to make Fiori apps you have defined in a plugin in an overall application. The steps I took for making those apps available are the following. 
+
+## Our current solution 
+1. Create a directory with the same appname as the plugin in the application `app` directory
+2. in that directory create a symlink with the name `symwebapp` that points to the `webapp` folder in the imported plugin directory (i.e. node_modules/[cds plugin package name]/app/[appname]/webapp)
+3. Add xs-app.json file to the directory.
+    1. Adjust the first route and change
+        1. The destination name
+        2. The route to the proper service
+4. Create a new file called `ui5-deploy.yaml`
+    1. copy the file
+    2. Replace metadata/name with metadata/name from ui5.yaml
+    3. In the custom task `ui5-task-zipper`, replace the configuration/archivename with the metadata/name stripped of all special characters.
+5. Adjust package.json 
+    1. Add this line to the scripts section of the package.json `build:cf": "ui5 build preload --clean-dest --config ui5-deploy.yaml --include-task=generateCachebusterInfo`
+    2. Add devDependencies
+        1. "@sap/ui5-builder-webide-extension": "^1.1.9",
+        2. "ui5-task-zipper": "^3.3.1"
+
+# i18n support
+## Challenges
+As a product developer I want to make sure that all text labels are language supported.
+
+## Our current solution
+We wrote a small tool that goes through the csn and checks if 
+1. Are i18n placeholders specified where flexible texts are used.
+2. Do we have a value for the placeholder in the i18n text files. 
 
 
