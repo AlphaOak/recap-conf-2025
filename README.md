@@ -58,14 +58,14 @@ Sigma is utilizing the following solution architecture.
 ```
 
 
-# Example Plugin Use to model Semantics
+# Example plugin use to model semantics
 ## Why using Plugins
 We are using plugins to separate the different data models and extensions from each other. The easiest analogy would be modules in SAP S/4.
 
 As we are re-using components in varying applications, we don't want to copy and paste data models around. 
 
 
-# Step by Step Instructions
+# Step-by-step instructions
 ## 1. Prepare the project environment
 1. Create an overall project folder. Let's say it is called `tapp`
 2. Create two sub folders. The first one called `capapp`, the second `capplugin`
@@ -250,7 +250,7 @@ Connection: close
   ]
 }
 ```
-# Fiori Apps in Plugins
+# Fiori apps in plugins
 ## Challenges
 The current tooling from SAP does not allow you easily to make Fiori apps you have defined in a plugin in an overall application. The steps I took for making those apps available are the following. 
 
